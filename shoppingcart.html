@@ -1,0 +1,154 @@
+<html>
+<head>
+    <title>SoFashion</title>
+</head>
+<body>
+
+<nav>
+    <div class="nav-bar">
+        <div id="cart" onClick="showHideModal()">
+
+        </div>
+    </div>
+</nav>
+
+<h1>Welcome to SoFashion</h1>
+
+<div class="main-content">
+    <div class="item-container" id="tshirt">
+        <div class="image-container">
+            <img class="item-image" src="./assets/tshirt.jpg"/>
+        </div>
+        <div class="flex-item">
+            <p>Polo shirt - pink</p>
+            <p>£20.00</p>
+            <p>Really cool polo shirt</p>
+            <button onClick="handleAddToCart(this)">Add to cart</button>
+        </div>
+    </div>
+
+    <div class="item-container" id="jeans">
+        <div class="image-container">
+            <img class="item-image" src="./assets/jeans.jpg"/>
+        </div>
+        <div class="flex-item">
+            <p>Jeans - blue</p>
+            <p>£50.00</p>
+            <p>Super stylish jeans</p>
+            <button onClick="handleAddToCart(this)">Add to cart</button>
+        </div>
+    </div>
+</div>
+
+<div id="cartModal" class="modal">
+    <h1>My Shopping Cart</h1>
+    <h2 id="tshirt">Polo shirt - pink: <span id="tshirt-qty">0</span></h2>
+    <h2 id="jeans">Jeans - blue: <span id="jeans-qty">0</span></h2>
+    <button onClick="handlePurchase()">Purchase!</button>
+</div>
+</body>
+
+</html>
+
+<script>
+  var cartQuantity = 0;
+  var cartContent = {};
+  var cart = document.getElementById("cart");
+  cart.innerHTML = `Cart (${cartQuantity})`;
+  var cartModal = document.getElementById("cartModal");
+  function addItemToCart(itemName) {
+    if (cartContent[itemName]) {
+      cartContent[itemName] = cartContent[itemName] + 1;
+    } else {
+      cartContent[itemName] = 1;
+    }
+  }
+  function handleAddToCart(element) {
+    cartQuantity++;
+    var itemName = element.parentElement.parentElement.id;
+    addItemToCart(itemName);
+    cart.innerHTML = `Cart (${cartQuantity})`;
+    updateCart();
+  }
+  function showHideModal() {
+    var display = cartModal.style.display;
+    if (!display || display === "none") {
+      cartModal.style.display = "block";
+    } else {
+      cartModal.style.display = "none";
+    }
+  }
+  function updateCart() {
+    var tshirt = document.getElementById("tshirt-qty");
+    var jeans = document.getElementById("jeans-qty");
+    tshirt.innerHTML = cartContent.tshirt || 0;
+    jeans.innerHTML = cartContent.jeans || 0;
+  }
+  function handlePurchase() {
+    alert(`Thanks for purhcasing: ${JSON.stringify(cartContent)}`);
+    showHideModal();
+  }
+
+</script>
+
+<style>
+    body {
+        margin: 0;
+    }
+    h1 {
+        text-align: center;
+    }
+    .main-content {
+        margin: auto;
+    }
+    .item-container {
+        display: flex;
+    }
+    .image-container {
+        display: block;
+        width: 200px;
+        height: 200px;
+    }
+    .item-image {
+        display: block;
+        margin: 0 auto;
+        height: 200px;
+        padding: 5px
+    }
+    .flex-item {
+        margin: 20px
+    }
+    .nav-bar {
+        width: 100%;
+        height: 62.5px;
+        padding: 0;
+        margin: 0;
+        background-color: lightslategrey;
+    }
+    #cart {
+        display: block;
+        float: right;
+        margin: 12.5px;
+        padding: 6px;
+        width: 70px;
+        height: 25px;
+        background-color: orangered;
+        color: white;
+        text-align: center;
+        vertical-align: middle;
+        border-radius: 5px;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        top: 300px;
+        left: 300px;
+        width: 500px;
+        height: 200px;
+        padding: 20px;
+        background-color: lightslategrey;
+        border: solid 1px orangered;
+        border-radius: 5px;
+        color: white;
+    }
+</style>
