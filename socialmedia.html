@@ -1,4 +1,11 @@
 <html>
+<head>
+    <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-firestore.js"></script>
+    <script src="./lib/sm_database.js"></script>
+    <script>initialiseFirebase(firebase)</script>
+</head>
 <body>
 <form id="user-form" onsubmit="handleSubmit(event)">
     <label for="name-box">What's your name?</label>
@@ -54,6 +61,7 @@
     var {user, text} = createTextNodes();
     appendContent(h3, user, p, text, div);
     div.setAttribute("class", "post");
+    saveToDb();
   }
 
   function formHasContent() {
@@ -72,6 +80,10 @@
     } else {
       alert("All fields must have content!");
     }
+  }
+
+  function saveToDb() {
+    saveToFirebase(firebase, userElement.value, textElement.value)
   }
 </script>
 
