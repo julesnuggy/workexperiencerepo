@@ -40,11 +40,13 @@
     </div>
 </div>
 
-<div id="cartModal" class="modal">
-    <h1>My Shopping Cart</h1>
-    <h2 id="tshirt">Polo shirt - pink: <span id="tshirt-qty">0</span></h2>
-    <h2 id="jeans">Jeans - blue: <span id="jeans-qty">0</span></h2>
-    <button onClick="handlePurchase()">Purchase!</button>
+<div class="modal-container">
+    <div id="cartModal" class="modal">
+        <h1>My Shopping Cart</h1>
+        <h2 id="tshirt">Polo shirt - pink: <span id="tshirt-qty">0</span></h2>
+        <h2 id="jeans">Jeans - blue: <span id="jeans-qty">0</span></h2>
+        <button onclick="handlePurchase()">Purchase!</button>
+    </div>
 </div>
 </body>
 
@@ -56,6 +58,7 @@
   var cart = document.getElementById("cart");
   cart.innerHTML = `Cart (${cartQuantity})`;
   var cartModal = document.getElementById("cartModal");
+
   function addItemToCart(itemName) {
     if (cartContent[itemName]) {
       cartContent[itemName] = cartContent[itemName] + 1;
@@ -63,13 +66,14 @@
       cartContent[itemName] = 1;
     }
   }
+
   function handleAddToCart(element) {
     cartQuantity++;
     var itemName = element.parentElement.parentElement.id;
     addItemToCart(itemName);
-    cart.innerHTML = `Cart (${cartQuantity})`;
-    updateCart();
+    updateCartDisplay();
   }
+
   function showHideModal() {
     var display = cartModal.style.display;
     if (!display || display === "none") {
@@ -78,15 +82,29 @@
       cartModal.style.display = "none";
     }
   }
-  function updateCart() {
+
+  function updateCartDisplay() {
     var tshirt = document.getElementById("tshirt-qty");
     var jeans = document.getElementById("jeans-qty");
     tshirt.innerHTML = cartContent.tshirt || 0;
     jeans.innerHTML = cartContent.jeans || 0;
+    cart.innerHTML = `Cart (${cartQuantity})`;
   }
+
+  function clearCart() {
+    cartQuantity = 0;
+    cartContent = {};
+  }
+
   function handlePurchase() {
-    alert(`Thanks for purhcasing: ${JSON.stringify(cartContent)}`);
-    showHideModal();
+    if (Object.keys(cartContent).length === 0) {
+      alert("Nothing in your cart!")
+    } else {
+      alert(`Thanks for purhcasing: ${JSON.stringify(cartContent)}`);
+      clearCart();
+      updateCartDisplay();
+      showHideModal();
+    }
   }
 
 </script>
@@ -138,11 +156,15 @@
         vertical-align: middle;
         border-radius: 5px;
     }
+    .modal-container {
+        display: flex;
+        position: fixed;
+        top: 33vh;
+        left: 33vw;
+        justify-content: center;
+    }
     .modal {
         display: none;
-        position: fixed;
-        top: 300px;
-        left: 300px;
         width: 500px;
         height: 200px;
         padding: 20px;
