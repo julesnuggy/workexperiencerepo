@@ -13,18 +13,22 @@
            type="text"
            maxlength="20"
     />
+    <br><br>
+    <label for="text-box">Say something...</label>
+    <textarea id="text-box"
+              rows="4"
+              cols="50"
+              maxlength="120"
+              name="comment"
+              form="user-form"
+              placeholder="What's on your mind?"
+    ></textarea>
+    <br><br>
     <input type="submit">
 </form>
-<br>
-<textarea id="text-box"
-          rows="4"
-          cols="50"
-          maxlength="120"
-          name="comment"
-          form="user-form"
-          placeholder="What's on your mind?"
-></textarea>
-<br>
+
+<button onclick="getFromDb()">Get DB Data</button>
+
 <div id="newsfeed"></div>
 </body>
 </html>
@@ -35,6 +39,18 @@
   var formElement = document.getElementById("user-form");
   var newsfeed = document.getElementById("newsfeed");
 
+  window.onload = function() {
+    var data = getFromDb();
+    var length = data.length;
+    var i;
+    console.log(length)
+    for (i = 0; i < length; i++)
+    {
+      console.log("11");
+      createPost(data[i]);
+    }
+  };
+
   function createPostElements() {
     var div = document.createElement("div");
     var h3 = document.createElement("h3");
@@ -42,9 +58,11 @@
     return {div, h3, p};
   }
 
-  function createTextNodes() {
-    var user = document.createTextNode(userElement.value);
-    var text = document.createTextNode(textElement.value);
+  function createTextNodes(data) {
+    // var user = document.createTextNode(userElement.value);
+    // var text = document.createTextNode(textElement.value);
+    var user = data.username;
+    var text = data.post;
     return {user, text};
   }
 
@@ -56,12 +74,12 @@
     newsfeed.append(div);
   }
 
-  function createPost() {
+  function createPost(data) {
+    console.log(data);
     var {div, h3, p} = createPostElements();
-    var {user, text} = createTextNodes();
+    var {user, text} = createTextNodes(data);
     appendContent(h3, user, p, text, div);
     div.setAttribute("class", "post");
-    saveToDb();
   }
 
   function formHasContent() {
@@ -72,10 +90,11 @@
     formElement.reset();
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event, data) {
     event.preventDefault();
     if (formHasContent()) {
-      createPost();
+      saveToDb();
+      createPost(data);
       clearForm();
     } else {
       alert("All fields must have content!");
@@ -85,6 +104,11 @@
   function saveToDb() {
     saveToFirebase(firebase, userElement.value, textElement.value)
   }
+
+  function getFromDb() {
+    return retrieveFromFirebase(firebase);
+  }
+
 </script>
 
 <style>

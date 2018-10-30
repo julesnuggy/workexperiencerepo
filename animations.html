@@ -1,0 +1,36 @@
+<html>
+<body>
+<img src="./assets/square.png" class="rotating">
+</body>
+</html>
+
+<style>
+    @keyframes rotation {
+        from {}
+        to{transform: rotate(360deg)}
+    }
+
+    .rotating {
+        width: 100px;
+        height: 100px;
+    }
+
+    .rotating:hover {
+        animation-name: rotation;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes changeBackgroundColor {
+        0% {background-color: yellow;}
+        50% {background-color: orangered;}
+        100% {background-color: yellow;}
+    }
+
+    body {
+        animation-name: changeBackgroundColor;
+        animation-duration: 10s;
+        animation-iteration-count: infinite;
+    }
+
+</style>
