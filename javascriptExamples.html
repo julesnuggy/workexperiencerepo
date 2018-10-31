@@ -22,13 +22,14 @@
 <hr>
 <h1>FizzBuzz</h1>
 
-<div id="output-div">
+<div id="input-div">
     <form onsubmit="handleFizzBuzzSubmit(event, this)">
         <label for="inputbox">Enter a number up to 100</label>
         <input id="inputbox" type="number" max="100">
         <input type="submit" value="Submit">
     </form>
 </div>
+<div id="output-div"></div>
 </body>
 </html>
 
@@ -38,14 +39,14 @@
     var num1 = parseInt(data.number1.value);
     var num2 = parseInt(data.number2.value);
     var resultText = document.getElementById("result-text");
-    var result = calculate(num1, data.operator.value, num2);
-    resultText.innerHTML = result;
+    resultText.innerHTML = calculate(num1, data.operator.value, num2);
     }
 
     var outputDiv = document.getElementById("output-div");
 
     function handleFizzBuzzSubmit(event, data) {
       event.preventDefault();
+      clearOutput();
       var input = data.inputbox.value;
       var i;
       var arr = fizzbuzz(input);
@@ -61,4 +62,19 @@
       p.append(text);
       outputDiv.append(p);
     }
+
+    function clearOutput() {
+      while (outputDiv.firstChild) {
+        outputDiv.removeChild(outputDiv.firstChild);
+      }
+    }
 </script>
+
+<style>
+    #output-div {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        height: 80%;
+    }
+</style>
