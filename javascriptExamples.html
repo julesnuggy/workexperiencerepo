@@ -1,0 +1,64 @@
+<html>
+<head>
+    <script src="scripts/javascriptExamples.js"></script>
+</head>
+<body>
+<h1>Calculator</h1>
+<form onsubmit="handleCalculateSubmit(event, this)">
+    <label for="number1">Number</label>
+    <input id="number1" type="number">
+
+    <label for="operator">Operator (+ - / *)</label>
+    <input id="operator" type="text" maxlength="1">
+
+    <label for="number2">Number</label>
+    <input id="number2" type="number">
+
+    <input type="submit">
+</form>
+
+<p id="result-text"></p>
+
+<hr>
+<h1>FizzBuzz</h1>
+
+<div id="output-div">
+    <form onsubmit="handleFizzBuzzSubmit(event, this)">
+        <label for="inputbox">Enter a number up to 100</label>
+        <input id="inputbox" type="number" max="100">
+        <input type="submit" value="Submit">
+    </form>
+</div>
+</body>
+</html>
+
+<script>
+    function handleCalculateSubmit(event, data) {
+    event.preventDefault();
+    var num1 = parseInt(data.number1.value);
+    var num2 = parseInt(data.number2.value);
+    var resultText = document.getElementById("result-text");
+    var result = calculate(num1, data.operator.value, num2);
+    resultText.innerHTML = result;
+    }
+
+    var outputDiv = document.getElementById("output-div");
+
+    function handleFizzBuzzSubmit(event, data) {
+      event.preventDefault();
+      var input = data.inputbox.value;
+      var i;
+      var arr = fizzbuzz(input);
+      var len = arr.length;
+      for (i = 0; i < len; i++) {
+        printOutput(arr[i]);
+      }
+    }
+
+    function printOutput(value) {
+      var p = document.createElement("p");
+      var text = document.createTextNode(value);
+      p.append(text);
+      outputDiv.append(p);
+    }
+</script>
